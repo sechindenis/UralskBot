@@ -1,4 +1,5 @@
-﻿using UralskBot.Pages;
+﻿using UralskBot.Models;
+using UralskBot.Pages;
 
 namespace UralskBot
 {
@@ -6,17 +7,18 @@ namespace UralskBot
     {
         static void Main(string[] args)
         {
-            Browser.GetDriver().Navigate().GoToUrl("https://q.midpass.ru/");
+            Browser.GetDriver().Navigate().GoToUrl(ConfigData.Url);
 
             var mainPage = new MainPage();
-            mainPage.SelectCountry("Казахстан");
-            mainPage.SelectServicesProvider("Уральск - Генеральное консульство");
-            mainPage.EnterEmail("example@e.com");
+            mainPage.SelectCountry(ConfigData.Country);
+            mainPage.SelectServicesProvider(ConfigData.Department);
+            mainPage.EnterEmail(UsersData.Email);
             
             // change keys
-            mainPage.EnterCaptcha("1234");
+            mainPage.EnterCaptcha(Console.ReadLine());
 
-            mainPage.EnterPassword("12345678");
+            mainPage.EnterPassword(UsersData.Password);
+            mainPage.ClickLogInButton();
 
             // удалить
             Thread.Sleep(100000);

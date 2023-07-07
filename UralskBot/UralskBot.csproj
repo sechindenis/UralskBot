@@ -13,4 +13,13 @@
     <PackageReference Include="WebDriverManager" Version="2.16.3" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Data\ConfigData.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Data\UsersData.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
