@@ -4,6 +4,5 @@
     "Url": "https://q.midpass.ru/",
     "Country": "Казахстан",
     "Department": "Уральск - Генеральное консульство",
-    "CaptchaDirectory": "D:\\",
     "CaptchaFileName":  "CaptchaImage.jpg"
 }

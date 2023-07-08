@@ -106,12 +106,13 @@ namespace UralskBot.Pages
             input.Keyboard.KeyPress(VirtualKeyCode.TAB, VirtualKeyCode.TAB, VirtualKeyCode.TAB);
 
             input.Keyboard.KeyDown(VirtualKeyCode.RETURN);
-            input.Keyboard.TextEntry(ConfigData.CaptchaDirectory);
+            input.Keyboard.TextEntry(ConfigData.AssemblyLocation);
             input.Keyboard.KeyDown(VirtualKeyCode.RETURN);
 
             Thread.Sleep(1000);
 
-            input.Keyboard.KeyPress(VirtualKeyCode.TAB, VirtualKeyCode.TAB, VirtualKeyCode.TAB, VirtualKeyCode.TAB, VirtualKeyCode.TAB);
+            input.Keyboard.KeyPress(VirtualKeyCode.TAB, VirtualKeyCode.TAB, VirtualKeyCode.TAB);
+            input.Keyboard.KeyPress(VirtualKeyCode.TAB, VirtualKeyCode.TAB, VirtualKeyCode.TAB);
             input.Keyboard.TextEntry(ConfigData.CaptchaFileName);
             input.Keyboard.KeyDown(VirtualKeyCode.RETURN);
 
@@ -120,7 +121,7 @@ namespace UralskBot.Pages
 
         private void DeleteCaptchaImage()
         {
-            File.Delete(ConfigData.CaptchaDirectory + ConfigData.CaptchaFileName);
+            File.Delete(ConfigData.CaptchaFileName);
         }
     }
 }

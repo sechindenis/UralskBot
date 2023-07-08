@@ -21,7 +21,7 @@ namespace UralskBot.Captcha
             _solver.DefaultTimeout = DefaultTimeout;
             _solver.RecaptchaTimeout = RecaptchaTimeout;
 
-            _normalCaptcha.SetFile(ConfigData.CaptchaDirectory + ConfigData.CaptchaFileName);
+            _normalCaptcha.SetFile(ConfigData.CaptchaFileName);
             _normalCaptcha.SetMinLen(MinLength);
             _normalCaptcha.SetMaxLen(MaxLength);
             _normalCaptcha.SetCaseSensitive(CaseSensitive);
