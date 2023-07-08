@@ -8,5 +8,7 @@
         public string Url { get; set; }
         public string Country { get; set; }
         public string Department { get; set; }
+        public string CaptchaDirectory { get; set; }
+        public string CaptchaFileName { get; set; }
     }
 }

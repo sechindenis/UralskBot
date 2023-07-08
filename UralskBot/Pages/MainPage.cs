@@ -1,5 +1,8 @@
 ﻿using UralskBot.Captcha;
 using UralskBot.Elements;
+using UralskBot.Models;
+using WindowsInput;
+using WindowsInput.Native;
 
 namespace UralskBot.Pages
 {
@@ -13,65 +16,110 @@ namespace UralskBot.Pages
         private const string logInButtonXPath = "//*[contains(@onclick, 'LogOn') and contains(text(), 'Войти')]";
         private const string captchaImageXPath = "//*[contains(@id, 'imgCaptcha')]";
 
-        private SelectElement countriesSelectElement;
-        private SelectElement servicesProviderSelectElement;
-        private TextBoxElement emailTextBoxElement;
-        private TextBoxElement captchaTextBoxElement;
-        private TextBoxElement passwordTextBoxElement;
-        private ButtonElement logInButtonElement;
-        private ImageElement captchaImageElement;
+        private SelectElement _countriesSelectElement;
+        private SelectElement _servicesProviderSelectElement;
+        private TextBoxElement _emailTextBoxElement;
+        private TextBoxElement _captchaTextBoxElement;
+        private TextBoxElement _passwordTextBoxElement;
+        private ButtonElement _logInButtonElement;
+        private ImageElement _captchaImageElement;
 
         public MainPage()
         {
-            countriesSelectElement = new SelectElement(Browser.GetDriver().FindElement(By.XPath($"{ countriesSelectElemenXPath }")));
-            servicesProviderSelectElement = new SelectElement(Browser.GetDriver().FindElement(By.XPath($"{ servicesProviderSelectElemenXPath }")));
-            emailTextBoxElement = new TextBoxElement(Browser.GetDriver().FindElement(By.XPath($"{ emailTextBoxElemenXPath }")));
-            captchaTextBoxElement = new TextBoxElement(Browser.GetDriver().FindElement(By.XPath($"{ captchaTextBoxElemenXPath }")));
-            passwordTextBoxElement = new TextBoxElement(Browser.GetDriver().FindElement(By.XPath($"{ passwordTextBoxElemenXPath }")));
-            logInButtonElement = new ButtonElement(Browser.GetDriver().FindElement(By.XPath($"{ logInButtonXPath }")));
-            captchaImageElement = new ImageElement(Browser.GetDriver().FindElement(By.XPath($"{ captchaImageXPath }")));
+            _countriesSelectElement = new SelectElement(Browser.GetDriver().FindElement(By.XPath($"{ countriesSelectElemenXPath }")));
+            _servicesProviderSelectElement = new SelectElement(Browser.GetDriver().FindElement(By.XPath($"{ servicesProviderSelectElemenXPath }")));
+            _emailTextBoxElement = new TextBoxElement(Browser.GetDriver().FindElement(By.XPath($"{ emailTextBoxElemenXPath }")));
+            _captchaTextBoxElement = new TextBoxElement(Browser.GetDriver().FindElement(By.XPath($"{ captchaTextBoxElemenXPath }")));
+            _passwordTextBoxElement = new TextBoxElement(Browser.GetDriver().FindElement(By.XPath($"{ passwordTextBoxElemenXPath }")));
+            _logInButtonElement = new ButtonElement(Browser.GetDriver().FindElement(By.XPath($"{ logInButtonXPath }")));
+            _captchaImageElement = new ImageElement(Browser.GetDriver().FindElement(By.XPath($"{ captchaImageXPath }")));
         }
 
         public void SelectCountry(string country)
         {
-            countriesSelectElement.SelectByText(country);
+            _countriesSelectElement.SelectByText(country);
         }
 
         public void SelectServicesProvider(string servicesProvider)
         {
-            servicesProviderSelectElement.SelectByText(servicesProvider);
+            _servicesProviderSelectElement.SelectByText(servicesProvider);
         }
 
         public void EnterEmail(string email)
         {
-            emailTextBoxElement.SendKeys(email);
+            _emailTextBoxElement.SendKeys(email);
         }
 
-        public void EnterCaptcha(string captcha)
+        public void EnterCaptcha()
         {
-            captchaTextBoxElement.SendKeys(captcha);
+            _captchaTextBoxElement.SendKeys(GetCaptchaText());
         }
 
         public void EnterPassword(string password)
         {
-            passwordTextBoxElement.SendKeys(password);
+            _passwordTextBoxElement.SendKeys(password);
         }
 
         public void ClickLogInButton()
         {
-            logInButtonElement.Click();
+            _logInButtonElement.Click();
         }
 
-        public string GetCaptchaText()
+        private string GetCaptchaText()
         {
-            var captchaSolver = new NormalCaptchaSolver();
+            MouseHoverCaptchaImage();
+            RightClickCaptchaImage();
+            EnterCaptchaDownloadingSettings();
 
-            return captchaSolver.GetCaptchaText(GetCaptchaSrc()) ?? throw new Exception("Captcha text is null");            
+            var captchaText = new NormalCaptchaSolver().GetCaptchaText() ?? throw new Exception("Captcha text is null");            
+
+            DeleteCaptchaImage();
+
+            return captchaText;
         }
 
-        private string GetCaptchaSrc()
+        private void MouseHoverCaptchaImage()
         {
-            return captchaImageElement.GetSrc();
+            new Actions(Browser.GetDriver())
+                .MoveToElement(_captchaImageElement.GetElement())
+                .Perform();
+        }
+
+        private void RightClickCaptchaImage()
+        {
+            new Actions(Browser.GetDriver())
+                .MoveToElement(_captchaImageElement.GetElement())
+                .ContextClick()
+                .Perform();
+        }
+
+        private void EnterCaptchaDownloadingSettings()
+        {
+            var input = new InputSimulator();
+            input.Keyboard.KeyPress(VirtualKeyCode.DOWN, VirtualKeyCode.DOWN, VirtualKeyCode.RETURN);
+            input.Keyboard.KeyDown(VirtualKeyCode.RETURN);
+
+            Thread.Sleep(1000);
+
+            input.Keyboard.KeyPress(VirtualKeyCode.TAB, VirtualKeyCode.TAB, VirtualKeyCode.TAB);
+            input.Keyboard.KeyPress(VirtualKeyCode.TAB, VirtualKeyCode.TAB, VirtualKeyCode.TAB);
+
+            input.Keyboard.KeyDown(VirtualKeyCode.RETURN);
+            input.Keyboard.TextEntry(ConfigData.CaptchaDirectory);
+            input.Keyboard.KeyDown(VirtualKeyCode.RETURN);
+
+            Thread.Sleep(1000);
+
+            input.Keyboard.KeyPress(VirtualKeyCode.TAB, VirtualKeyCode.TAB, VirtualKeyCode.TAB, VirtualKeyCode.TAB, VirtualKeyCode.TAB);
+            input.Keyboard.TextEntry(ConfigData.CaptchaFileName);
+            input.Keyboard.KeyDown(VirtualKeyCode.RETURN);
+
+            Thread.Sleep(1000);
+        }
+
+        private void DeleteCaptchaImage()
+        {
+            File.Delete(ConfigData.CaptchaDirectory + ConfigData.CaptchaFileName);
         }
     }
 }

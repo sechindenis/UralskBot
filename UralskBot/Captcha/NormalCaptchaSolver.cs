@@ -6,10 +6,9 @@ namespace UralskBot.Captcha
     public class NormalCaptchaSolver
     {
         private static TwoCaptcha.TwoCaptcha _solver = new(ConfigData.TwoCaptchaApiKey);
-        private static Normal _normalCaptcha = new ();
+        private static Normal _normalCaptcha = new();
 
         public string Language { get; set; } = "en";
-        public string FileName { get; set; } = "Captcha.jpg";
         public int SleepTime { get; set; } = 30000;
         public int MinLength { get; set; } = 4;
         public int MaxLength { get; set; } = 10;
@@ -22,19 +21,16 @@ namespace UralskBot.Captcha
             _solver.DefaultTimeout = DefaultTimeout;
             _solver.RecaptchaTimeout = RecaptchaTimeout;
 
-            _normalCaptcha.SetFile(FileName);
+            _normalCaptcha.SetFile(ConfigData.CaptchaDirectory + ConfigData.CaptchaFileName);
             _normalCaptcha.SetMinLen(MinLength);
             _normalCaptcha.SetMaxLen(MaxLength);
             _normalCaptcha.SetCaseSensitive(CaseSensitive);
             _normalCaptcha.SetLang(Language);
         }
 
-        public string? GetCaptchaText(string url)
+        public string? GetCaptchaText()
         {
             string? code = null;
-            var fileUtils = new FileDownloaderUtils();
-
-            fileUtils.DownloadFile(url, FileName);
 
             try
             {
@@ -44,8 +40,6 @@ namespace UralskBot.Captcha
             {
                 Console.WriteLine("Error occurred: " + e.InnerExceptions.First().Message);
             }
-
-            fileUtils.DeleteFile(FileName);
 
             return code;
         }

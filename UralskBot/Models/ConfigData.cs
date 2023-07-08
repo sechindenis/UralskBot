@@ -15,6 +15,8 @@ namespace UralskBot.Models
             Url = _configData.Url;
             Country = _configData.Country;
             Department = _configData.Department;
+            CaptchaDirectory = _configData.CaptchaDirectory;
+            CaptchaFileName = _configData.CaptchaFileName;
         }
 
         public static int Timeout { get; }
@@ -22,5 +24,7 @@ namespace UralskBot.Models
         public static string Url { get; }            
         public static string Country { get; }
         public static string Department { get; }
+        public static string CaptchaDirectory { get; set; }
+        public static string CaptchaFileName { get; set; }
     }
 }

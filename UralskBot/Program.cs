@@ -1,5 +1,7 @@
 ﻿using UralskBot.Models;
 using UralskBot.Pages;
+using WindowsInput;
+using WindowsInput.Native;
 
 namespace UralskBot
 {
@@ -14,13 +16,8 @@ namespace UralskBot
             mainPage.SelectServicesProvider(ConfigData.Department);
             mainPage.EnterEmail(UsersData.Email);
             mainPage.EnterPassword(UsersData.Password);
-
-            var captchaText = mainPage.GetCaptchaText();
-            Console.WriteLine($"Captcha text: { captchaText }");
-            
-            //mainPage.EnterCaptcha(captchaText);
-
-            //mainPage.ClickLogInButton();
+            mainPage.EnterCaptcha();
+            mainPage.ClickLogInButton();
 
             // удалить
             Thread.Sleep(100000);
