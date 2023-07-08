@@ -1,4 +1,4 @@
-﻿using OpenQA.Selenium.Support.UI;
+﻿using UralskBot.Captcha;
 using UralskBot.Elements;
 
 namespace UralskBot.Pages
@@ -11,6 +11,7 @@ namespace UralskBot.Pages
         private const string captchaTextBoxElemenXPath = "//*[contains(@class, 'register_input') and contains(@name, 'Captcha')]";
         private const string passwordTextBoxElemenXPath = "//*[contains(@class, 'register_input') and contains(@name, 'Password')]";
         private const string logInButtonXPath = "//*[contains(@onclick, 'LogOn') and contains(text(), 'Войти')]";
+        private const string captchaImageXPath = "//*[contains(@id, 'imgCaptcha')]";
 
         private SelectElement countriesSelectElement;
         private SelectElement servicesProviderSelectElement;
@@ -18,6 +19,7 @@ namespace UralskBot.Pages
         private TextBoxElement captchaTextBoxElement;
         private TextBoxElement passwordTextBoxElement;
         private ButtonElement logInButtonElement;
+        private ImageElement captchaImageElement;
 
         public MainPage()
         {
@@ -27,6 +29,7 @@ namespace UralskBot.Pages
             captchaTextBoxElement = new TextBoxElement(Browser.GetDriver().FindElement(By.XPath($"{ captchaTextBoxElemenXPath }")));
             passwordTextBoxElement = new TextBoxElement(Browser.GetDriver().FindElement(By.XPath($"{ passwordTextBoxElemenXPath }")));
             logInButtonElement = new ButtonElement(Browser.GetDriver().FindElement(By.XPath($"{ logInButtonXPath }")));
+            captchaImageElement = new ImageElement(Browser.GetDriver().FindElement(By.XPath($"{ captchaImageXPath }")));
         }
 
         public void SelectCountry(string country)
@@ -57,6 +60,18 @@ namespace UralskBot.Pages
         public void ClickLogInButton()
         {
             logInButtonElement.Click();
+        }
+
+        public string GetCaptchaText()
+        {
+            var captchaSolver = new NormalCaptchaSolver();
+
+            return captchaSolver.GetCaptchaText(GetCaptchaSrc()) ?? throw new Exception("Captcha text is null");            
+        }
+
+        private string GetCaptchaSrc()
+        {
+            return captchaImageElement.GetSrc();
         }
     }
 }

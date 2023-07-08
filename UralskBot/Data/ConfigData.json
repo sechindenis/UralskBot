@@ -1,6 +1,7 @@
 {
-  "Timeout": 30,
-  "Url": "https://q.midpass.ru/",
-  "Country": "Казахстан",
-  "Department": "Уральск - Генеральное консульство"
+    "Timeout": 30,
+    "TwoCaptchaApiKey": "33ebcf04d110fde8d21c051d2a0b69d2",
+    "Url": "https://q.midpass.ru/",
+    "Country": "Казахстан",
+    "Department": "Уральск - Генеральное консульство"
 }

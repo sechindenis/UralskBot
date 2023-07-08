@@ -4,6 +4,7 @@
     public class ConfigDataDTO
     {
         public int Timeout { get; set; }
+        public string TwoCaptchaApiKey { get; set; }
         public string Url { get; set; }
         public string Country { get; set; }
         public string Department { get; set; }
