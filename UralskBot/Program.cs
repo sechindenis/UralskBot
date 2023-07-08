@@ -1,7 +1,5 @@
 ﻿using UralskBot.Models;
 using UralskBot.Pages;
-using WindowsInput;
-using WindowsInput.Native;
 
 namespace UralskBot
 {

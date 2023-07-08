@@ -2,7 +2,6 @@
 using UralskBot.Elements;
 using UralskBot.Models;
 using WindowsInput;
-using WindowsInput.Native;
 
 namespace UralskBot.Pages
 {
@@ -95,6 +94,8 @@ namespace UralskBot.Pages
 
         private void EnterCaptchaDownloadingSettings()
         {
+            Thread.Sleep(1000);
+
             var input = new InputSimulator();
             input.Keyboard.KeyPress(VirtualKeyCode.DOWN, VirtualKeyCode.DOWN, VirtualKeyCode.RETURN);
             input.Keyboard.KeyDown(VirtualKeyCode.RETURN);
