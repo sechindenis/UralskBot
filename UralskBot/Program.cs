@@ -13,11 +13,8 @@ namespace UralskBot
             mainPage.SelectCountry(ConfigData.Country);
             mainPage.SelectServicesProvider(ConfigData.Department);
             mainPage.EnterEmail(UsersData.Email);
-            
-            // change keys
-            mainPage.EnterCaptcha(Console.ReadLine());
-
             mainPage.EnterPassword(UsersData.Password);
+            mainPage.EnterCaptcha();
             mainPage.ClickLogInButton();
 
             // удалить
