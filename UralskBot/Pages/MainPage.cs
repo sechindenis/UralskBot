@@ -12,8 +12,8 @@ namespace UralskBot.Pages
         private const string emailTextBoxElemenXPath = "//*[contains(@class, 'register_input') and contains(@name, 'Email')]";
         private const string captchaTextBoxElemenXPath = "//*[contains(@class, 'register_input') and contains(@name, 'Captcha')]";
         private const string passwordTextBoxElemenXPath = "//*[contains(@class, 'register_input') and contains(@name, 'Password')]";
-        private const string logInButtonXPath = "//*[contains(@onclick, 'LogOn') and contains(text(), 'Войти')]";
-        private const string captchaImageXPath = "//*[contains(@id, 'imgCaptcha')]";
+        private const string logInButtonElementXPath = "//*[contains(@onclick, 'LogOn') and contains(text(), 'Войти')]";
+        private const string captchaImageElementXPath = "//*[contains(@id, 'imgCaptcha')]";
 
         private SelectElement _countriesSelectElement;
         private SelectElement _servicesProviderSelectElement;
@@ -27,11 +27,11 @@ namespace UralskBot.Pages
         {
             _countriesSelectElement = new SelectElement(Browser.GetDriver().FindElement(By.XPath($"{ countriesSelectElemenXPath }")));
             _servicesProviderSelectElement = new SelectElement(Browser.GetDriver().FindElement(By.XPath($"{ servicesProviderSelectElemenXPath }")));
-            _emailTextBoxElement = new TextBoxElement(Browser.GetDriver().FindElement(By.XPath($"{ emailTextBoxElemenXPath }")));
-            _captchaTextBoxElement = new TextBoxElement(Browser.GetDriver().FindElement(By.XPath($"{ captchaTextBoxElemenXPath }")));
-            _passwordTextBoxElement = new TextBoxElement(Browser.GetDriver().FindElement(By.XPath($"{ passwordTextBoxElemenXPath }")));
-            _logInButtonElement = new ButtonElement(Browser.GetDriver().FindElement(By.XPath($"{ logInButtonXPath }")));
-            _captchaImageElement = new ImageElement(Browser.GetDriver().FindElement(By.XPath($"{ captchaImageXPath }")));
+            _emailTextBoxElement = new TextBoxElement(By.XPath($"{ emailTextBoxElemenXPath }"));
+            _captchaTextBoxElement = new TextBoxElement(By.XPath($"{ captchaTextBoxElemenXPath }"));
+            _passwordTextBoxElement = new TextBoxElement(By.XPath($"{ passwordTextBoxElemenXPath }"));
+            _logInButtonElement = new ButtonElement(By.XPath($"{ logInButtonElementXPath }"));
+            _captchaImageElement = new ImageElement(By.XPath($"{captchaImageElementXPath}"));
         }
 
         public void SelectCountry(string country)
@@ -49,7 +49,13 @@ namespace UralskBot.Pages
             _emailTextBoxElement.SendKeys(email);
         }
 
-        public void EnterCaptcha()
+        // to delete
+        public void EnterCaptcha(string keys)
+        {
+            _captchaTextBoxElement.SendKeys(keys);
+        }
+
+        public void EnterCaptcha2()
         {
             _captchaTextBoxElement.SendKeys(GetCaptchaText());
         }

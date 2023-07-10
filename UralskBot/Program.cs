@@ -14,8 +14,20 @@ namespace UralskBot
             mainPage.SelectServicesProvider(ConfigData.Department);
             mainPage.EnterEmail(UsersData.Email);
             mainPage.EnterPassword(UsersData.Password);
-            mainPage.EnterCaptcha();
+            
+            // to change
+            mainPage.EnterCaptcha(Console.ReadLine());
+            //mainPage.EnterCaptcha();
             mainPage.ClickLogInButton();
+
+            Thread.Sleep(3000);
+
+            var firstStepServiceSelection = new FirstStepServiceSelection();
+            firstStepServiceSelection.ScrollToForeignPassportTenYearsButton();
+            firstStepServiceSelection.ClickForeignPassportTenYearsButton();
+
+            //var secondStepDateSelection = new SecondStepDateSelection();
+            //secondStepDateSelection.ClickDateButton();
 
             // удалить
             Thread.Sleep(100000);
